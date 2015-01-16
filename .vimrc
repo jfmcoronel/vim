@@ -29,15 +29,15 @@ autocmd vimenter * if !argc() | NERDTree | endif	" open NERDTree if Vim is execu
 let NERDTreeQuitOnOpen = 1							" close NERDTree after opening file
 
 " EasyMotion
-let g:EasyMotion_leader_key = ','
-nmap h ,F
-vmap h ,F
-nmap l ,f
-vmap l ,f
-nmap k ,k
-vmap k ,k
-nmap j ,j
-vmap j ,j
+" let g:EasyMotion_leader_key = ','
+" nmap h ,F
+" vmap h ,F
+" nmap l ,f
+" vmap l ,f
+" nmap k ,k
+" vmap k ,k
+" nmap j ,j
+" vmap j ,j
 
 " Powerline
 set encoding=utf-8
