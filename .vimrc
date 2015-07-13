@@ -78,3 +78,15 @@ let g:rehash256 = 1
 set t_Co=256
 set background=dark
 colorscheme molokai
+
+" Timeout
+"set timeoutlen=1000 ttimeoutlen=0
+
+set noesckeys
+
+" Ctrl-P
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
