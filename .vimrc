@@ -87,3 +87,7 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<c-t>'],
     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
     \ }
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1 
+let g:neocomplete#enable_smart_case = 1
