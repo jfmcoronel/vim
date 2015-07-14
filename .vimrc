@@ -19,9 +19,6 @@ inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-set tabstop=4
-set shiftwidth=4
-
 nnoremap <Space> :noh<cr>
 
 " NERDTree
