@@ -14,6 +14,7 @@ set ignorecase
 set smartcase
 set incsearch
 set cursorline
+set foldmethod=indent
 
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -91,3 +92,4 @@ let g:ctrlp_prompt_mappings = {
 " neocomplete
 let g:neocomplete#enable_at_startup = 1 
 let g:neocomplete#enable_smart_case = 1
+set completeopt-=preview
