@@ -43,3 +43,6 @@
 [submodule ".vim/bundle/indentLine"]
 	path = .vim/bundle/indentLine
 	url = https://github.com/Yggdroot/indentLine
+[submodule ".vim/bundle/vim-autopep8"]
+	path = .vim/bundle/vim-autopep8
+	url = https://github.com/tell-k/vim-autopep8
