@@ -75,7 +75,7 @@ let g:session_autosave = 'no'
 let g:rehash256 = 1
 set t_Co=256
 set background=dark
-colorscheme molokai
+colorscheme gruvbox
 
 " Timeout
 "set timeoutlen=1000 ttimeoutlen=0
@@ -96,3 +96,5 @@ set completeopt-=preview
 
 " indentLine
 let g:indentLine_color_term = 239
+
+set backspace=indent,eol,start
