@@ -1,3 +1,4 @@
+" fzf
 set rtp+=/usr/local/opt/fzf
 
 " Pathogen
@@ -5,11 +6,10 @@ filetype off
 call pathogen#incubate()
 call pathogen#helptags()
 
+" Miscellaneous
 set number
-
 filetype indent plugin on
 syntax on
-
 set hlsearch
 set autoindent
 set ignorecase
@@ -17,32 +17,15 @@ set smartcase
 set incsearch
 set cursorline
 set foldmethod=indent
-
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
 nnoremap <Space> :noh<cr>
+set noesckeys
 
 " NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif	" open NERDTree if Vim is executed without opening a file
-let NERDTreeQuitOnOpen = 1							" close NERDTree after opening file
-
-" EasyMotion
-" let g:EasyMotion_leader_key = ','
-" nmap h ,F
-" vmap h ,F
-" nmap l ,f
-" vmap l ,f
-" nmap k ,k
-" vmap k ,k
-" nmap j ,j
-" vmap j ,j
-
-" Powerline
-set encoding=utf-8
-set laststatus=2
-let g:Powerline_symbols="fancy"
+autocmd vimenter * if !argc() | NERDTree | endif
+let NERDTreeQuitOnOpen = 1
 
 " Rainbow Parentheses
 let g:rbpt_colorpairs = [
@@ -70,19 +53,11 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 nnoremap <Leader>r :RainbowParenthesesToggle<cr>
 
-" Vim Session
-let g:session_autosave = 'no'
-
-" Molokai
+" Color scheme
 let g:rehash256 = 1
 set t_Co=256
 set background=dark
-colorscheme gruvbox
-
-" Timeout
-"set timeoutlen=1000 ttimeoutlen=0
-
-set noesckeys
+colorscheme jellybeans
 
 " Ctrl-P
 let g:ctrlp_show_hidden = 1
@@ -91,12 +66,33 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
     \ }
 
-" neocomplete
-let g:neocomplete#enable_at_startup = 1 
-let g:neocomplete#enable_smart_case = 1
-set completeopt-=preview
-
 " indentLine
 let g:indentLine_color_term = 239
 
 set backspace=indent,eol,start
+
+" fzf.vim
+nmap ,p :Files<CR>
+nmap ,o :Buffers<CR>
+"let g:fzf_action = { 'enter': 'tabedit' }
+"nmap <Leader>t :Tags<CR>
+
+"" General buffer settings
+set hidden
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='powerlineish'
+let g:airline#extensions#syntastic#enabled = 1
+set laststatus=2
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+nnoremap <C-X> :bdelete<CR>
+
+" Jellybeans
+let g:jellybeans_use_term_italics = 1
