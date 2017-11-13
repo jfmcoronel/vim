@@ -49,3 +49,6 @@
 [submodule "vim-pug"]
 	path = vim-pug
 	url = git://github.com/digitaltoad/vim-pug.git
+[submodule ".vim/bundle/fzf.vim"]
+	path = .vim/bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim

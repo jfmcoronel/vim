@@ -1,3 +1,5 @@
+set rtp+=/usr/local/opt/fzf
+
 " Pathogen
 filetype off
 call pathogen#incubate()
