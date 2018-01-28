@@ -37,3 +37,12 @@
 [submodule ".vim/bundle/gruvbox"]
 	path = .vim/bundle/gruvbox
 	url = https://github.com/morhetz/gruvbox
+[submodule ".vim/bundle/vim-pug"]
+	path = .vim/bundle/vim-pug
+	url = https://github.com/digitaltoad/vim-pug
+[submodule "vim-sleuth"]
+	path = vim-sleuth
+	url = git://github.com/tpope/vim-sleuth.git
+[submodule ".vim/bundle/vim-sleuth"]
+	path = .vim/bundle/vim-sleuth
+	url = git://github.com/tpope/vim-sleuth.git

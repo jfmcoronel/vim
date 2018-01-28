@@ -8,15 +8,16 @@ call pathogen#helptags()
 
 " Miscellaneous
 set number
-filetype indent plugin on
+"filetype indent plugin on
 syntax on
 set hlsearch
 set autoindent
+set smartindent
 set ignorecase
 set smartcase
 set incsearch
 set cursorline
-set foldmethod=indent
+"set foldmethod=indent
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
