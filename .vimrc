@@ -8,16 +8,14 @@ call pathogen#helptags()
 
 " Miscellaneous
 set number
-"filetype indent plugin on
+filetype indent plugin on
 syntax on
 set hlsearch
-set autoindent
 set smartindent
 set ignorecase
 set smartcase
 set incsearch
 set cursorline
-"set foldmethod=indent
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
@@ -27,6 +25,7 @@ set noesckeys
 " NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
 let NERDTreeQuitOnOpen = 1
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 " Color scheme
 let g:rehash256 = 1
@@ -91,3 +90,36 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+
+" Syntastic
+let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+
+" SimpylFold
+let g:SimpylFold_docstring_preview = 1
+let g:SimpylFold_fold_import = 0
+
+" PEP-8
+au BufNewFile,BufRead *.py;
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+let python_highlight_all=1
+syntax on
+
+"Flagging Unnecessary Whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Web development
+au BufNewFile,BufRead *.js, *.html, *.css ;
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
+
+" Standards
+set encoding=utf-8
