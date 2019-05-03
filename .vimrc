@@ -99,14 +99,21 @@ let g:SimpylFold_docstring_preview = 1
 let g:SimpylFold_fold_import = 0
 
 " PEP-8
-au BufNewFile,BufRead *.py;
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=79 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set textwidth=79
+set expandtab
+set autoindent
+set fileformat=unix
+"au BufNewFile,BufRead *.py;
+"    \ set tabstop=4 |
+"    \ set softtabstop=4 |
+"    \ set shiftwidth=4 |
+"    \ set textwidth=79 |
+"    \ set expandtab |
+"    \ set autoindent |
+"    \ set fileformat=unix
 
 let python_highlight_all=1
 syntax on
@@ -123,3 +130,6 @@ au BufNewFile,BufRead *.js, *.html, *.css ;
 
 " Standards
 set encoding=utf-8
+
+" vim-sneak
+let g:sneak#label = 1
