@@ -133,4 +133,5 @@ set encoding=utf-8
 
 " vim-easymotion
 "set EasyMotion_do_mapping=0
-map s <Plug>(easymotion-s)
+map s <Plug>(incsearch-easymotion-/)
+map S <Plug>(incsearch-easymotion-?)
