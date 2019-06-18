@@ -35,10 +35,6 @@ colorscheme gruvbox
 
 " Ctrl-P
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
 
 " indentLine
 let g:indentLine_color_term = 239
@@ -93,6 +89,9 @@ augroup END
 
 " Syntastic
 let syntastic_mode_map = { 'passive_filetypes': ['html'] }
+let g:syntastic_cpp_checkers = ['gcc']
+let g:syntastic_cpp_compiler = 'gcc'
+let g:syntastic_cpp_compiler_options = '-std=c++11'
 
 " SimpylFold
 let g:SimpylFold_docstring_preview = 1
@@ -102,8 +101,9 @@ let g:SimpylFold_fold_import = 0
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set textwidth=79
+"set textwidth=79
 set expandtab
+set smarttab
 set autoindent
 set fileformat=unix
 "au BufNewFile,BufRead *.py;
@@ -131,5 +131,6 @@ au BufNewFile,BufRead *.js, *.html, *.css ;
 " Standards
 set encoding=utf-8
 
-" vim-sneak
-let g:sneak#label = 1
+" vim-easymotion
+"set EasyMotion_do_mapping=0
+map s <Plug>(easymotion-s)
