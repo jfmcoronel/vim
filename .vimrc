@@ -1,6 +1,8 @@
 " fzf
 set rtp+=/usr/local/opt/fzf
 
+let g:indentLine_concealcursor = ""
+
 " Pathogen
 filetype off
 call pathogen#incubate()
@@ -92,6 +94,8 @@ let syntastic_mode_map = { 'passive_filetypes': ['html'] }
 let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_cpp_compiler = 'gcc'
 let g:syntastic_cpp_compiler_options = '-std=c++11'
+let g:syntastic_python_checkers = ['python']
+let g:syntastic_python_python_exec = 'python3'
 
 " SimpylFold
 let g:SimpylFold_docstring_preview = 1
@@ -123,10 +127,10 @@ highlight BadWhitespace ctermbg=red guibg=darkred
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " Web development
-au BufNewFile,BufRead *.js, *.html, *.css ;
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
+"au BufNewFile,BufRead *.js, *.html, *.css ;
+"    \ set tabstop=2 |
+"    \ set softtabstop=2 |
+"    \ set shiftwidth=2
 
 " Standards
 set encoding=utf-8
@@ -142,3 +146,4 @@ noremap <M-?> ?
 map / <Plug>(incsearch-easymotion-/)
 map ? <Plug>(incsearch-easymotion-?)
 
+set conceallevel=0
