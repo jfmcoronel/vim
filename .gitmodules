@@ -79,3 +79,6 @@
 [submodule ".vim/bundle/incsearch-easymotion.vim"]
 	path = .vim/bundle/incsearch-easymotion.vim
 	url = https://github.com/haya14busa/incsearch-easymotion.vim
+[submodule ".vim/bundle/vim-toml"]
+	path = .vim/bundle/vim-toml
+	url = https://github.com/cespare/vim-toml
