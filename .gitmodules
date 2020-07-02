@@ -82,3 +82,30 @@
 [submodule ".vim/bundle/dart-vim-plugin"]
 	path = .vim/bundle/dart-vim-plugin
 	url = https://github.com/dart-lang/dart-vim-plugin
+[submodule ".vim/bundle/elm-vim"]
+	path = .vim/bundle/elm-vim
+	url = https://github.com/ElmCast/elm-vim
+[submodule ".vim/bundle/Ionide-vim"]
+	path = .vim/bundle/Ionide-vim
+	url = https://github.com/ionide/Ionide-vim
+[submodule ".vim/bundle/FsAutoComplete"]
+	path = .vim/bundle/FsAutoComplete
+	url = https://github.com/fsharp/FsAutoComplete
+[submodule ".vim/bundle/deoplete.nvim"]
+	path = .vim/bundle/deoplete.nvim
+	url = https://github.com/Shougo/deoplete.nvim
+[submodule ".vim/bundle/LanguageClient-neovim"]
+	path = .vim/bundle/LanguageClient-neovim
+	url = https://github.com/autozimu/LanguageClient-neovim
+[submodule ".vim/bundle/vim-elixir"]
+	path = .vim/bundle/vim-elixir
+	url = https://github.com/elixir-editors/vim-elixir
+[submodule ".vim/bundle/vim-autoformat"]
+	path = .vim/bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat
+[submodule ".vim/bundle/pathfinder.vim"]
+	path = .vim/bundle/pathfinder.vim
+	url = https://github.com/AlphaMycelium/pathfinder.vim/
+[submodule ".vim/bundle/quick-scope"]
+	path = .vim/bundle/quick-scope
+	url = https://github.com/unblevable/quick-scope

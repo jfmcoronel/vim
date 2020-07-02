@@ -1,28 +1,66 @@
-" fzf
-set rtp+=/usr/local/opt/fzf
+" vim-plug
+call plug#begin('~/.vim/plugged')
 
-let g:indentLine_concealcursor = ""
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-vinegar'
+Plug 'preservim/nerdtree'
+"if has('nvim')
+"  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+"  Plug 'Shougo/defx.nvim'
+"  Plug 'roxma/nvim-yarp'
+"  Plug 'roxma/vim-hug-neovim-rpc'
+"endif
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'unblevable/quick-scope'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Chiel92/vim-autoformat'
+Plug 'tpope/vim-sleuth'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+"Plug 'sheerun/vim-polyglot'
+Plug 'Yggdroot/indentLine'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'bitc/vim-bad-whitespace'
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
 
-" Pathogen
-filetype off
-call pathogen#incubate()
-call pathogen#helptags()
+Plug 'Ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
+
+call plug#end()
+
+let mapleader = " "
 
 " Miscellaneous
+filetype off
 set number
-filetype indent plugin on
+filetype plugin on
 syntax on
 set hlsearch
 set smartindent
 set ignorecase
+set wildignorecase
 set smartcase
 set incsearch
 set cursorline
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
-nnoremap <Space> :noh<cr>
+"nnoremap <Space> :noh<cr>
+nmap <Leader><Space> :noh<cr>
 set noesckeys
+set backspace=indent,eol,start
+
 
 " NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
@@ -33,36 +71,10 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 let g:rehash256 = 1
 set t_Co=256
 set background=dark
-colorscheme gruvbox
-
-" Ctrl-P
-let g:ctrlp_show_hidden = 1
-
-" indentLine
-let g:indentLine_color_term = 239
-
-set backspace=indent,eol,start
+colorscheme gruvbox8
 
 " fzf.vim
-nmap ,p :Files<CR>
-nmap ,o :Buffers<CR>
-"let g:fzf_action = { 'enter': 'tabedit' }
-"nmap <Leader>t :Tags<CR>
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+nmap <C-p> :Files<CR>
 
 "" General buffer settings
 set hidden
@@ -74,7 +86,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16_gruvbox_dark_hard'
 let g:airline#extensions#syntastic#enabled = 1
 set laststatus=2
 nnoremap <Tab> :bnext<CR>
@@ -89,61 +101,114 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
-" Syntastic
-let syntastic_mode_map = { 'passive_filetypes': ['html'] }
-let g:syntastic_cpp_checkers = ['gcc']
-let g:syntastic_cpp_compiler = 'gcc'
-let g:syntastic_cpp_compiler_options = '-std=c++11'
-let g:syntastic_python_checkers = ['python']
-let g:syntastic_python_python_exec = 'python3'
-
-" SimpylFold
-let g:SimpylFold_docstring_preview = 1
-let g:SimpylFold_fold_import = 0
-
 " PEP-8
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-"set textwidth=79
 set expandtab
 set smarttab
 set autoindent
 set fileformat=unix
-"au BufNewFile,BufRead *.py;
-"    \ set tabstop=4 |
-"    \ set softtabstop=4 |
-"    \ set shiftwidth=4 |
-"    \ set textwidth=79 |
-"    \ set expandtab |
-"    \ set autoindent |
-"    \ set fileformat=unix
 
 let python_highlight_all=1
 syntax on
-
-"Flagging Unnecessary Whitespace
-highlight BadWhitespace ctermbg=red guibg=darkred
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" Web development
-"au BufNewFile,BufRead *.js, *.html, *.css ;
-"    \ set tabstop=2 |
-"    \ set softtabstop=2 |
-"    \ set shiftwidth=2
 
 " Standards
 set encoding=utf-8
 
 " vim-easymotion
-"set EasyMotion_do_mapping=0
-"
-noremap ÷ /
-noremap <M-/> /
-noremap ¿ ?
-noremap <M-?> ?
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_do_mapping = 0
 
-map / <Plug>(incsearch-easymotion-/)
-map ? <Plug>(incsearch-easymotion-?)
+"nmap sl <Plug>(easymotion-fln)
+"nmap sh <Plug>(easymotion-Fln)
+"nmap sj <Plug>(easymotion-fn)
+"nmap sk <Plug>(easymotion-Fn)
+"nmap sw <Plug>(easymotion-w)
+"nmap sW <Plug>(easymotion-W)
+"nmap sb <Plug>(easymotion-b)
+"nmap sB <Plug>(easymotion-B)
+"nmap se <Plug>(easymotion-e)
+"nmap sE <Plug>(easymotion-E)
+"nmap sf <Plug>(easymotion-f)
+"nmap sF <Plug>(easymotion-F)
+
+"map <Leader>j <Plug>(incsearch-easymotion-/)
+"map <Leader>k <Plug>(incsearch-easymotion-?)
+map \ <Plug>(easymotion-s2)
 
 set conceallevel=0
+
+"" Elm
+"let g:elm_format_autosave = 1
+"let g:elm_setup_keybindings = 1
+"
+"" Reason
+"let g:LanguageClient_serverCommands = {
+"      \ 'reason': ['/Users/jfmcoronel/rls-macos/reason-language-server']
+"      \ }
+
+" vim-hardmode
+"let g:hardtime_default_on = 1
+
+" Case-insensitive insert mode
+set smartcase
+au InsertEnter * set noignorecase
+au InsertLeave * set ignorecase
+"
+" Case-insensitive command mode
+augroup dynamic_smartcase
+  autocmd!
+  autocmd CmdLineEnter : set nosmartcase
+  autocmd CmdLineLeave : set smartcase
+augroup END
+
+" nerd-commentary
+let g:NERDDefaultAlign = 'left'
+vmap +/ <Leader>c 
+nmap +/ <Leader>c 
+
+" vim-gitgutter
+let g:gitgutter_map_keys=0
+nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {
+  \     "\<CR>": '<Over>(easymotion)'
+  \   },
+  \   'is_expr': 0
+  \ }), get(a:, 1, {}))
+endfunction
+
+" CoC
+"command! -nargs=0 Prettier :CocCommand prettier.formatFile
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+vmap <Leader>f <Plug>(coc-format)
+nmap <Leader>f <Plug>(coc-format)
+nmap <Leader>r <Plug>(coc-rename)
+nmap <Leader>d <Plug>(coc-definition)
+inoremap <silent><expr> <c-space> coc#refresh()
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
