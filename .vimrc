@@ -185,6 +185,8 @@ function! s:incsearch_config(...) abort
   \ }), get(a:, 1, {}))
 endfunction
 
+nmap <Leader><F12> :set paste!<CR>
+
 " CoC
 "command! -nargs=0 Prettier :CocCommand prettier.formatFile
 set hidden
