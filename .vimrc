@@ -185,7 +185,7 @@ function! s:incsearch_config(...) abort
   \ }), get(a:, 1, {}))
 endfunction
 
-nmap <Leader><F12> :set paste!<CR>
+nmap <Leader>P :set paste!<CR>
 
 " CoC
 "command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -205,6 +205,8 @@ nmap <Leader>f <Plug>(coc-format)
 nmap <Leader>r <Plug>(coc-rename)
 nmap <Leader>d <Plug>(coc-definition)
 nmap <F12> <Plug>(coc-references)
+nmap <Leader>[ <Plug>(coc-diagnostic-prev)
+nmap <Leader>] <Plug>(coc-diagnostic-next)
 inoremap <silent><expr> <c-space> coc#refresh()
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()

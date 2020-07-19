@@ -1,9 +1,21 @@
 {
-"languageserver": {
+  "languageserver": {
     "ocaml-lsp": {
-        "command": "opam",
-        "args": ["config", "exec", "--", "ocamllsp"],
-        "filetypes": ["ocaml", "reason"]
+      "command": "opam",
+      "args": ["config", "exec", "--", "ocamllsp"],
+      "filetypes": ["ocaml", "reason"]
+    },
+    "clojure-lsp": {
+      "command": "bash",
+      "args": ["-c", "clojure-lsp"],
+      "filetypes": ["clojure"],
+      "rootPatterns": ["project.clj"],
+      "additionalSchemes": ["jar", "zipfile"],
+      "trace.server": "verbose",
+      "initializationOptions": {}
     }
-}
+  },
+  "python.linting.pylintEnabled": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.enabled": true
 }
