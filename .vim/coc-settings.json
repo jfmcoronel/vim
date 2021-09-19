@@ -13,9 +13,51 @@
       "additionalSchemes": ["jar", "zipfile"],
       "trace.server": "verbose",
       "initializationOptions": {}
-    }
+    },
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"]
+    },
+    "purescript": {
+      "command": "purescript-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["purescript"],
+      "trace.server": "off",
+      "rootPatterns": ["bower.json", "psc-package.json", "spago.dhall"],
+      "settings": {
+        "purescript": {
+          "addSpagoSources": true,
+          "addNpmPath": true, // Set to true if using a local purty install for formatting
+          "formatter": "purs-tidy"
+          // etc
+        }
+      }
+    },
+    //"fsharp": {
+    //  "command": "dotnet",
+    //  "args": [
+    //    //"/Users/jfmcoronel/fsharp-language-server/src/FSharpLanguageServer/bin/Release/netcoreapp3.0/FSharpLanguageServer.dll"
+    //    "/Users/jfmcoronel/FsAutoComplete/src/FsAutoComplete/bin/Release/net5.0/dotnet-fsautocomplete.dll", "--background-service-enabled"
+    //  ],
+    //  "filetypes": [
+    //    "fsharp"
+    //  ],
+    //  "ignoredRootPaths": [
+    //    "/",
+    //    "~"
+    //  ],
+    //  "initializationOptions": {
+    //    "AutomaticWorkspaceInit": true
+    //  },
+    //},
   },
   "python.linting.pylintEnabled": false,
   "python.linting.mypyEnabled": true,
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "python.jediEnabled": false,
+  "python.pythonPath": "python3",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "strict",
+  "clangd.path": "/Users/jfmcoronel/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd"
 }

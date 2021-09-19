@@ -1,8 +1,10 @@
+set nocompatible
+
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-vinegar'
+"Plug 'tpope/vim-vinegar'
 Plug 'preservim/nerdtree'
 "if has('nvim')
 "  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -21,7 +23,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-"Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -40,14 +42,21 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dense-analysis/ale'
+"Plug 'dense-analysis/ale'
+
+Plug 'jxnblk/vim-mdx-js'
+Plug 'MaxMEllon/vim-jsx-pretty'
+
+Plug 'jfmcoronel/vim-mipssyntax'
+
+"Plug 'nathangrigg/vim-beancount'
+"
 
 call plug#end()
 
 let mapleader = " "
 
 " Miscellaneous
-filetype off
 set number
 filetype plugin on
 syntax on
@@ -77,13 +86,11 @@ colorscheme gruvbox8
 
 " fzf.vim
 nmap <C-p> :Files<CR>
+let g:fzf_layout = { 'down': '40%' }
+let g:fzf_preview_window = []
 
 "" General buffer settings
 set hidden
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -91,8 +98,8 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='base16_gruvbox_dark_hard'
 let g:airline#extensions#syntastic#enabled = 1
 set laststatus=2
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+"nnoremap <Tab> :bnext<CR>
+"nnoremap <S-Tab> :bprevious<CR>
 nnoremap <C-X> :bdelete<CR>
 
 " Line numbers
@@ -103,10 +110,9 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
-" PEP-8
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set smarttab
 set autoindent
@@ -137,7 +143,7 @@ let g:EasyMotion_do_mapping = 0
 
 "map <Leader>j <Plug>(incsearch-easymotion-/)
 "map <Leader>k <Plug>(incsearch-easymotion-?)
-map \ <Plug>(easymotion-s2)
+map \ <Plug>(easymotion-sn)
 
 set conceallevel=0
 
@@ -200,11 +206,31 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-vmap <Leader>f <Plug>(coc-format)
+"Airline
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+"let g:airline#extensions#tabline#show_tab_nr = 1
+"let g:airline#extensions#tabline#formatter = 'default'
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#fnametruncate = 16
+"let g:airline#extensions#tabline#fnamecollapse = 2
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+"let g:airline#extensions#tabline#fnamemod = ':t'
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>0 <Plug>AirlineSelectTab0
+
 nmap <Leader>f <Plug>(coc-format)
 nmap <Leader>r <Plug>(coc-rename)
-nmap <Leader>d <Plug>(coc-definition)
-nmap <F12> <Plug>(coc-references)
+nmap <Leader><CR> <Plug>(coc-definition)
+nmap <Leader>w <Plug>(coc-references)
 nmap <Leader>[ <Plug>(coc-diagnostic-prev)
 nmap <Leader>] <Plug>(coc-diagnostic-next)
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -232,45 +258,73 @@ endfunction
 
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+" Vim
+:command VimConfig :e $MYVIMRC
+:command VimReload :source $MYVIMRC
+
+" MIPS
+:command Mips set ft=mips
+
 " ALE
 let g:ale_virtualenv_dir_names = []
 
+"Python
+:command Pyimport CocCommand pyright.organizeimports
+
 " OCaml
-let g:no_ocaml_maps = 1
-" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
-let s:opam_share_dir = system("opam config var share")
-let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
+"let g:no_ocaml_maps = 1
+"" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
+"let s:opam_share_dir = system("opam config var share")
+"let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
 
-let s:opam_configuration = {}
+"let s:opam_configuration = {}
 
-function! OpamConfOcpIndent()
-  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
-endfunction
-let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+"function! OpamConfOcpIndent()
+"  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+"endfunction
+"let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
 
-function! OpamConfOcpIndex()
-  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
-endfunction
-let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
+"function! OpamConfOcpIndex()
+"  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+"endfunction
+"let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
 
-function! OpamConfMerlin()
-  let l:dir = s:opam_share_dir . "/merlin/vim"
-  execute "set rtp+=" . l:dir
-endfunction
-let s:opam_configuration['merlin'] = function('OpamConfMerlin')
+"function! OpamConfMerlin()
+"  let l:dir = s:opam_share_dir . "/merlin/vim"
+"  execute "set rtp+=" . l:dir
+"endfunction
+"let s:opam_configuration['merlin'] = function('OpamConfMerlin')
 
-let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
-let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
-let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
-for tool in s:opam_packages
-  " Respect package order (merlin should be after ocp-index)
-  if count(s:opam_available_tools, tool) > 0
-    call s:opam_configuration[tool]()
-  endif
-endfor
+"let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
+"let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+"let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+"for tool in s:opam_packages
+"  " Respect package order (merlin should be after ocp-index)
+"  if count(s:opam_available_tools, tool) > 0
+"    call s:opam_configuration[tool]()
+"  endif
+"endfor
 " ## end of OPAM user-setup addition for vim / base ## keep this line
-" ## added by OPAM user-setup for vim / ocp-indent ## 5c5b792b90dc4d65876597383a47fef6 ## you can edit, but keep this line
-if count(s:opam_available_tools,"ocp-indent") == 0
-  source "/Users/jfmcoronel/.opam/default/share/ocp-indent/vim/indent/ocaml.vim"
-endif
-" ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
+
+
+"vmap <Leader>f <Plug>(coc-format)
+"nmap <Leader>f <Plug>(coc-format)
+
+autocmd User CocStatusChange redraws
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+
+iabbrev @1@ ⓵
+iabbrev @2@ ⓶
+iabbrev @3@ ⓷
+iabbrev @4@ ⓸
+iabbrev @5@ ⓹
+iabbrev @6@ ⓺
+iabbrev @7@ ⓻
+iabbrev @8@ ⓼
+iabbrev @9@ ⓽
