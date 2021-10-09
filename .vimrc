@@ -48,6 +48,7 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 
 Plug 'jfmcoronel/vim-mipssyntax'
+Plug 'jfmcoronel/vim-sdq-highlight'
 
 "Plug 'nathangrigg/vim-beancount'
 "
