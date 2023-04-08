@@ -16,8 +16,20 @@
     },
     "elmLS": {
       "command": "elm-language-server",
-      "filetypes": ["elm"],
-      "rootPatterns": ["elm.json"]
+      "filetypes": [
+        "elm"
+      ],
+      "rootPatterns": [
+        "elm.json"
+      ],
+      "trace.server": "verbose",
+      "initializationOptions": {
+        "trace.server": true,
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "disableElmLSDiagnostics": false,
+        "skipInstallPackageConfirmation": false
+      }
     },
     "purescript": {
       "command": "purescript-language-server",
@@ -34,30 +46,33 @@
         }
       }
     },
-    //"fsharp": {
-    //  "command": "dotnet",
-    //  "args": [
-    //    //"/Users/jfmcoronel/fsharp-language-server/src/FSharpLanguageServer/bin/Release/netcoreapp3.0/FSharpLanguageServer.dll"
-    //    "/Users/jfmcoronel/FsAutoComplete/src/FsAutoComplete/bin/Release/net5.0/dotnet-fsautocomplete.dll", "--background-service-enabled"
-    //  ],
-    //  "filetypes": [
-    //    "fsharp"
-    //  ],
-    //  "ignoredRootPaths": [
-    //    "/",
-    //    "~"
-    //  ],
-    //  "initializationOptions": {
-    //    "AutomaticWorkspaceInit": true
-    //  },
-    //},
+    "rescript": {
+      "enable": true,
+      "module": "~/vim/.vim/plugged/vim-rescript/server/out/server.js",
+      "args": ["--node-ipc"],
+      "filetypes": ["rescript"],
+      "rootPatterns": ["bsconfig.json"]
+    },
+    "fsharp": {
+      "command": "dotnet",
+      //"args": ["/Users/jfmcoronel/fsharp-language-server/src/FSharpLanguageServer/bin/Release/net6.0/FSharpLanguageServer.dll"],
+      "args": ["/Users/jfmcoronel/FsAutoComplete/bin/release_netcore/fsautocomplete.dll"],
+      "filetypes": ["fsharp"],
+      "ignoredRootPaths": ["/", "~"],
+      "initializationOptions": {
+        "AutomaticWorkspaceInit": true
+      }
+    }
   },
   //"python.linting.pylintEnabled": false,
-  "python.linting.mypyEnabled": true,
+  //"python.linting.mypyEnabled": false,
   //"python.linting.enabled": true,
   //"python.jediEnabled": false,
+  "python.linting.ruffEnabled": true,
   "python.pythonPath": "python3",
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.typeCheckingMode": "strict",
-  "clangd.path": "/Users/jfmcoronel/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd"
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/13.0.0/clangd_13.0.0/bin/clangd",
+  "inlayHint.enable": false,
+
 }

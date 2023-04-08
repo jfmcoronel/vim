@@ -1,109 +1,97 @@
-set nocompatible
-
-" vim-plug
+"
+" Plugins
+"
 call plug#begin('~/.vim/plugged')
 
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'tpope/vim-vinegar'
-Plug 'preservim/nerdtree'
-"if has('nvim')
-"  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"  Plug 'Shougo/defx.nvim'
-"  Plug 'roxma/nvim-yarp'
-"  Plug 'roxma/vim-hug-neovim-rpc'
-"endif
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'unblevable/quick-scope'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'Chiel92/vim-autoformat'
-Plug 'tpope/vim-sleuth'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'sheerun/vim-polyglot'
-Plug 'Yggdroot/indentLine'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'bitc/vim-bad-whitespace'
-Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
-Plug 'ocaml/vim-ocaml'
-Plug 'elixir-editors/vim-elixir'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-fugitive'
 
-Plug 'Ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'dense-analysis/ale'
-
-Plug 'jxnblk/vim-mdx-js'
-Plug 'MaxMEllon/vim-jsx-pretty'
-
+Plug 'jfmcoronel/vim-polyglot'
 Plug 'jfmcoronel/vim-mipssyntax'
 Plug 'jfmcoronel/vim-sdq-highlight'
 
-"Plug 'nathangrigg/vim-beancount'
-"
+if has('nvim')
+  Plug 'sainnhe/gruvbox-material'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-tree/nvim-web-devicons'
+  Plug 'glepnir/dashboard-nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'MunifTanjim/nui.nvim'
+  Plug 'nvim-neo-tree/neo-tree.nvim'
+  Plug 'nvim-lualine/lualine.nvim'
+  Plug 'rcarriga/nvim-notify'
+  Plug 'phaazon/hop.nvim'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'willothy/nvim-cokeline'
+  Plug 'sbdchd/neoformat'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'kevinhwang91/nvim-bqf'
+  Plug 'stevearc/aerial.nvim'
+
+  " Dark colorschemes
+  Plug 'sainnhe/sonokai'
+  Plug 'sainnhe/everforest'
+  Plug 'catppuccin/nvim'
+  Plug 'marko-cerovac/material.nvim'
+  Plug 'rose-pine/neovim'
+  " Light colorschemes
+  Plug 'sainnhe/edge'
+  Plug 'EdenEast/nightfox.nvim'
+  "Plug 'rebelot/kanagawa.nvim'
+  "Plug 'shaunsingh/nord.nvim'
+  "Plug 'navarasu/onedark.nvim'
+  "Plug 'olimorris/onedarkpro.nvim'
+  "Plug 'tanvirtin/monokai.nvim'
+else
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'haya14busa/incsearch.vim'
+  Plug 'haya14busa/incsearch-easymotion.vim'
+  Plug 'lifepillar/vim-gruvbox8'
+  Plug 'bitc/vim-bad-whitespace'
+  Plug 'preservim/nerdtree'
+  Plug 'unblevable/quick-scope'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'Chiel92/vim-autoformat'
+  Plug 'tpope/vim-sleuth'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'Yggdroot/indentLine'
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  Plug 'ocaml/vim-ocaml'
+  Plug 'elixir-editors/vim-elixir'
+  Plug 'Ryanoasis/vim-devicons'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'jxnblk/vim-mdx-js'
+  Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'ivyl/vim-bling'
+  Plug 'rachitnigam/pyret-lang.vim'
+  Plug 'rescript-lang/vim-rescript'
+endif
 
 call plug#end()
 
-let mapleader = " "
-
-" Miscellaneous
+"
+" Common settings
+"
 set number
-filetype plugin on
-syntax on
-set hlsearch
-set smartindent
+set expandtab
+set termguicolors
 set ignorecase
-set wildignorecase
-set smartcase
-set incsearch
-set cursorline
-"nnoremap <Space> :noh<cr>
-nmap <Leader><Space> :noh<cr>
-set noesckeys
-set backspace=indent,eol,start
-
-
-" NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
-let NERDTreeQuitOnOpen = 1
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-" Color scheme
-let g:rehash256 = 1
-set t_Co=256
 set background=dark
-colorscheme gruvbox8
-
-" fzf.vim
-nmap <C-p> :Files<CR>
-let g:fzf_layout = { 'down': '40%' }
-let g:fzf_preview_window = []
-
-"" General buffer settings
-set hidden
-
-" vim-airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme='base16_gruvbox_dark_hard'
-let g:airline#extensions#syntastic#enabled = 1
-set laststatus=2
-"nnoremap <Tab> :bnext<CR>
-"nnoremap <S-Tab> :bprevious<CR>
-nnoremap <C-X> :bdelete<CR>
-
-" Line numbers
 set number relativenumber
 augroup numbertoggle
   autocmd!
@@ -111,215 +99,16 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set smarttab
-set autoindent
-set fileformat=unix
-
-let python_highlight_all=1
-syntax on
-
-" Standards
-set encoding=utf-8
-
-" vim-easymotion
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_do_mapping = 0
-
-"nmap sl <Plug>(easymotion-fln)
-"nmap sh <Plug>(easymotion-Fln)
-"nmap sj <Plug>(easymotion-fn)
-"nmap sk <Plug>(easymotion-Fn)
-"nmap sw <Plug>(easymotion-w)
-"nmap sW <Plug>(easymotion-W)
-"nmap sb <Plug>(easymotion-b)
-"nmap sB <Plug>(easymotion-B)
-"nmap se <Plug>(easymotion-e)
-"nmap sE <Plug>(easymotion-E)
-"nmap sf <Plug>(easymotion-f)
-"nmap sF <Plug>(easymotion-F)
-
-"map <Leader>j <Plug>(incsearch-easymotion-/)
-"map <Leader>k <Plug>(incsearch-easymotion-?)
-map \ <Plug>(easymotion-sn)
-
-set conceallevel=0
-
-"" Elm
-"let g:elm_format_autosave = 1
-"let g:elm_setup_keybindings = 1
 "
-"" Reason
-"let g:LanguageClient_serverCommands = {
-"      \ 'reason': ['/Users/jfmcoronel/rls-macos/reason-language-server']
-"      \ }
-
-" vim-hardmode
-"let g:hardtime_default_on = 1
-
-" Case-insensitive insert mode
-set smartcase
-au InsertEnter * set noignorecase
-au InsertLeave * set ignorecase
+" Common bindings
 "
-" Case-insensitive command mode
-augroup dynamic_smartcase
-  autocmd!
-  autocmd CmdLineEnter : set nosmartcase
-  autocmd CmdLineLeave : set smartcase
-augroup END
-
-" nerd-commentary
-let g:NERDDefaultAlign = 'left'
-vmap +/ <Leader>c 
-nmap +/ <Leader>c 
-
-" vim-gitgutter
-let g:gitgutter_map_keys=0
-nmap [c <Plug>(GitGutterPrevHunk)
-nmap ]c <Plug>(GitGutterNextHunk)
-
-function! s:incsearch_config(...) abort
-  return incsearch#util#deepextend(deepcopy({
-  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-  \   'keymap': {
-  \     "\<CR>": '<Over>(easymotion)'
-  \   },
-  \   'is_expr': 0
-  \ }), get(a:, 1, {}))
-endfunction
-
+let mapleader = " "
+nmap <Leader><Space> :noh<cr>
+nnoremap <C-X> :bdelete<CR>
+noremap <silent><esc> <esc>:noh<CR><esc>
+nmap <Leader>` mpggVG"+y`p
 nmap <Leader>P :set paste!<CR>
-
-" CoC
-"command! -nargs=0 Prettier :CocCommand prettier.formatFile
-set hidden
-set nobackup
-set nowritebackup
-set cmdheight=2
-set updatetime=300
-set shortmess+=c
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-"Airline
-let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-"let g:airline#extensions#tabline#show_tab_nr = 1
-"let g:airline#extensions#tabline#formatter = 'default'
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#tabline#fnametruncate = 16
-"let g:airline#extensions#tabline#fnamecollapse = 2
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-"let g:airline#extensions#tabline#fnamemod = ':t'
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>0 <Plug>AirlineSelectTab0
-
-nmap <Leader>f <Plug>(coc-format)
-nmap <Leader>r <Plug>(coc-rename)
-nmap <Leader><CR> <Plug>(coc-definition)
-nmap <Leader>w <Plug>(coc-references)
-nmap <Leader>[ <Plug>(coc-diagnostic-prev)
-nmap <Leader>] <Plug>(coc-diagnostic-next)
-inoremap <silent><expr> <c-space> coc#refresh()
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-"
-nnoremap <silent> <Leader>h :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Vim
-:command VimConfig :e $MYVIMRC
-:command VimReload :source $MYVIMRC
-
-" MIPS
-:command Mips set ft=mips
-
-" ALE
-let g:ale_virtualenv_dir_names = []
-
-"Python
-:command Pyimport CocCommand pyright.organizeimports
-
-" OCaml
-"let g:no_ocaml_maps = 1
-"" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
-"let s:opam_share_dir = system("opam config var share")
-"let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
-
-"let s:opam_configuration = {}
-
-"function! OpamConfOcpIndent()
-"  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
-"endfunction
-"let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
-
-"function! OpamConfOcpIndex()
-"  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
-"endfunction
-"let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
-
-"function! OpamConfMerlin()
-"  let l:dir = s:opam_share_dir . "/merlin/vim"
-"  execute "set rtp+=" . l:dir
-"endfunction
-"let s:opam_configuration['merlin'] = function('OpamConfMerlin')
-
-"let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
-"let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
-"let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
-"for tool in s:opam_packages
-"  " Respect package order (merlin should be after ocp-index)
-"  if count(s:opam_available_tools, tool) > 0
-"    call s:opam_configuration[tool]()
-"  endif
-"endfor
-" ## end of OPAM user-setup addition for vim / base ## keep this line
-
-
-"vmap <Leader>f <Plug>(coc-format)
-"nmap <Leader>f <Plug>(coc-format)
-
-autocmd User CocStatusChange redraws
-
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-
+nmap <Leader>LL :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 iabbrev @1@ ⓵
 iabbrev @2@ ⓶
 iabbrev @3@ ⓷
@@ -329,3 +118,390 @@ iabbrev @6@ ⓺
 iabbrev @7@ ⓻
 iabbrev @8@ ⓼
 iabbrev @9@ ⓽
+vmap +/ <Leader>c 
+nmap +/ <Leader>c 
+
+"
+" Common commands
+"
+:command MyVimConfig :e $MYVIMRC
+:command MyVimReload :source $MYVIMRC
+:command Mips set ft=mips
+
+"
+" fzf.vim
+"
+let g:fzf_layout = { 'down': '40%' }
+let g:fzf_preview_window = []
+
+if !has('nvim')
+  "
+  " Fallback config for regular vim
+  "
+
+  set nocompatible
+
+  " Miscellaneous
+  colorscheme gruvbox8
+  filetype plugin on
+  syntax on
+  set hlsearch
+  set smartindent
+  set ignorecase
+  set wildignorecase
+  set smartcase
+  set incsearch
+  set cursorline
+  set backspace=indent,eol,start
+
+  " NERDTree
+  autocmd vimenter * if !argc() | NERDTree | endif
+  let NERDTreeQuitOnOpen = 1
+  let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+  " Color scheme
+  let g:rehash256 = 1
+  set t_Co=256
+
+  "" General buffer settings
+  set hidden
+
+  " vim-airline
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline_powerline_fonts = 1
+  let g:airline_theme='base16_gruvbox_dark_hard'
+  let g:airline#extensions#syntastic#enabled = 1
+  set laststatus=2
+
+  set tabstop=2
+  set softtabstop=2
+  set shiftwidth=2
+  set smarttab
+  set autoindent
+  set fileformat=unix
+
+  let python_highlight_all=1
+  syntax on
+
+  " Standards
+  set encoding=utf-8
+  set conceallevel=0
+
+  " Case-insensitive insert mode
+  set smartcase
+  au InsertEnter * set noignorecase
+  au InsertLeave * set ignorecase
+
+  " Case-insensitive command mode
+  augroup dynamic_smartcase
+    autocmd!
+    autocmd CmdLineEnter : set nosmartcase
+    autocmd CmdLineLeave : set smartcase
+  augroup END
+
+  "Airline
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#buffer_idx_mode = 1
+  nmap <leader>1 <Plug>AirlineSelectTab1
+  nmap <leader>2 <Plug>AirlineSelectTab2
+  nmap <leader>3 <Plug>AirlineSelectTab3
+  nmap <leader>4 <Plug>AirlineSelectTab4
+  nmap <leader>5 <Plug>AirlineSelectTab5
+  nmap <leader>6 <Plug>AirlineSelectTab6
+  nmap <leader>7 <Plug>AirlineSelectTab7
+  nmap <leader>8 <Plug>AirlineSelectTab8
+  nmap <leader>9 <Plug>AirlineSelectTab9
+  nmap <leader>0 <Plug>AirlineSelectTab0
+  nmap <C-p> :Files<CR>
+
+  " Others
+  set showcmd
+
+  let g:tex_conceal = ''
+
+  let g:coc_filetype_map = {
+    \ 'elm': 'elm',
+    \ }
+
+  " CoC
+  set hidden
+  set nobackup
+  set nowritebackup
+  set cmdheight=2
+  set updatetime=300
+  set shortmess+=c
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  nmap <leader>f <Plug>(coc-format)
+  nmap <leader>r <Plug>(coc-rename)
+  nmap <leader><CR> <Plug>(coc-definition)
+  nmap <leader>w <Plug>(coc-references)
+  nmap <leader>[ <Plug>(coc-diagnostic-prev)
+  nmap <leader>] <Plug>(coc-diagnostic-next)
+
+  "nmap <leader>a <Plug>(coc-codeaction-refactor)
+  "xmap <leader>a  <Plug>(coc-codeaction-refactor-selected)
+  nmap <leader>a <Plug>(coc-codeaction)
+  xmap <leader>a <Plug>(coc-codeaction-selected)
+  nmap <leader>c <Plug>(coc-references)
+  inoremap <silent><expr> <c-space> coc#refresh()
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd User CocStatusChange redraws
+
+  " https://superuser.com/questions/1734914/neovim-coc-nvim-enter-key-doesnt-work-to-autocomplete
+  " https://www.reddit.com/r/neovim/comments/wqepw0/coc_completion_confirm_not_working_with_most/
+  "inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#insert() : "\<CR>"
+  "
+  "inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#insert() : "\<Tab>"
+  "inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+  nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+
+  command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+  nnoremap <silent> <Leader>h :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+  "Python
+  :command Pyimport CocCommand pyright.organizeimports
+  autocmd BufWritePre *.py :silent call CocAction('runCommand', 'pyright.organizeimports')
+
+  "
+  " vim-easymotion
+  "
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_do_mapping = 0
+
+  function! s:incsearch_config(...) abort
+    return incsearch#util#deepextend(deepcopy({
+    \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+    \   'keymap': {
+    \     "\<CR>": '<Over>(easymotion)'
+    \   },
+    \   'is_expr': 0
+    \ }), get(a:, 1, {}))
+  endfunction
+
+  function QuickFind()
+    " Undocumented call for easymotion-sn
+    call EasyMotion#S(-1,0,2)
+
+    " https://stackoverflow.com/questions/22798473/vim-how-to-turn-off-search-highlight-after-timeout-x-seconds
+    " https://stackoverflow.com/questions/50234309/vim-execute-nohlsearch-not-working-in-function
+    call feedkeys( ":nohlsearch\<CR>" )
+  endfunction
+
+  " nerd-commentary
+  let g:NERDDefaultAlign = 'left'
+
+  " vim-gitgutter
+  let g:gitgutter_map_keys=0
+  nmap [c <Plug>(GitGutterPrevHunk)
+  nmap ]c <Plug>(GitGutterNextHunk)
+  nmap <Leader>L :execute ( g:colors_name == "gruvbox8" ? "colorscheme PaperColor" : "colorscheme gruvbox8" ) <CR>
+  map \ :call QuickFind()<CR>
+
+else
+  "
+  " nvim-specific config
+  "
+  colorscheme gruvbox-material
+  let g:python3_host_prog = expand('~/.pyenv/shims/python3')
+
+  nmap <Leader>L :execute ( g:colors_name == "gruvbox-material" ? "colorscheme edge" : "colorscheme gruvbox-material" ) <CR>
+  map \ :HopPattern<CR>
+  nmap <leader>1 <Plug>(cokeline-focus-1)
+  nmap <leader>2 <Plug>(cokeline-focus-2)
+  nmap <leader>3 <Plug>(cokeline-focus-3)
+  nmap <leader>4 <Plug>(cokeline-focus-4)
+  nmap <leader>5 <Plug>(cokeline-focus-5)
+  nmap <leader>6 <Plug>(cokeline-focus-6)
+  nmap <leader>7 <Plug>(cokeline-focus-7)
+  nmap <leader>8 <Plug>(cokeline-focus-8)
+  nmap <leader>9 <Plug>(cokeline-focus-9)
+  nmap <leader>f :Neoformat<CR>
+  nmap <C-p> :Telescope find_files<CR>
+
+  autocmd VimEnter * call s:setup_plugins()
+  function! s:setup_plugins() abort
+    :delcommand PlenaryBustedDirectory
+    :delcommand PlenaryBustedFile
+
+lua<<EOF
+    require'mason.api.command'
+    require'dashboard'.setup {}
+    require"mason".setup {}
+    require"mason-lspconfig".setup {}
+    require"neo-tree".setup({
+      close_if_last_window = false,
+    })
+    require'lualine'.setup {}
+    require'hop'.setup {}
+    require'telescope'.setup{
+      defaults = {
+        mappings = {
+          ["i"] = {
+            ["<C-j>"] = "move_selection_next",
+            ["<C-k>"] = "move_selection_previous",
+          }
+        }
+      },
+    }
+    require('aerial').setup({
+      open_automatic = true,
+      on_attach = function(bufnr)
+        -- Jump forwards/backwards with '{' and '}'
+        --vim.cmd "AerialOpen!"
+        vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', {buffer = bufnr})
+        vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', {buffer = bufnr})
+        vim.keymap.set('n', '<Leader>o', '<cmd>AerialToggle!<CR>', {buffer = bufnr})
+      end,
+    })
+
+    local get_hex = require('cokeline/utils').get_hex
+
+    local green = vim.g.terminal_color_2
+    local yellow = vim.g.terminal_color_3
+
+    require('cokeline').setup({
+      default_hl = {
+        fg = function(buffer)
+          return
+            buffer.is_focused
+            and get_hex('Normal', 'fg')
+             or get_hex('Comment', 'fg')
+        end,
+        bg = get_hex('ColorColumn', 'bg'),
+      },
+
+      components = {
+        {
+          text = '｜',
+          fg = function(buffer)
+            return
+              buffer.is_modified and yellow or green
+          end
+        },
+        {
+          text = function(buffer) return buffer.devicon.icon .. ' ' end,
+          fg = function(buffer) return buffer.devicon.color end,
+        },
+        {
+          text = function(buffer) return buffer.index .. ': ' end,
+        },
+        {
+          text = function(buffer) return buffer.unique_prefix end,
+          fg = get_hex('Comment', 'fg'),
+          style = 'italic',
+        },
+        {
+          text = function(buffer) return buffer.filename .. ' ' end,
+          style = function(buffer) return buffer.is_focused and 'bold' or nil end,
+        },
+        {
+          text = ' ',
+        },
+      },
+    })
+
+    vim.notify = require("notify")
+
+    local lspconfig = require('lspconfig')
+    lspconfig.pyright.setup {}
+    lspconfig.ruff_lsp.setup {}
+    lspconfig.tsserver.setup {}
+    lspconfig.rust_analyzer.setup {
+      -- Server-specific settings. See `:help lspconfig-setup`
+      settings = {
+        ['rust-analyzer'] = {},
+      },
+    }
+
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float)
+    vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
+    vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
+    vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<Leader>c', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<Leader><CR>', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', '<Leader>a', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+
+    --vim.api.nvim_create_autocmd('LspAttach', {
+    --  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    --  callback = function(ev)
+    --    local opts = { buffer = ev.buf }
+
+    --    vim.keymap.set('n', '<Leader>f', function()
+    --      vim.lsp.buf.format { async = true }
+    --    end, opts)
+
+    --  end,
+    --})
+
+    local cmp = require'cmp'
+
+    cmp.setup({
+      snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+          vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+          -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+          -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        end,
+      },
+      window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+      },
+      mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      }),
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' }, -- For vsnip users.
+        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'snippy' }, -- For snippy users.
+      }, {
+        { name = 'buffer' },
+      })
+    })
+
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    require('lspconfig')['pyright'].setup {
+      capabilities = capabilities
+    }
+    require('lspconfig')['tsserver'].setup {
+      capabilities = capabilities
+    }
+    require('lspconfig')['rust_analyzer'].setup {
+      capabilities = capabilities
+    }
+
+EOF
+  endfunction
+
+endif
