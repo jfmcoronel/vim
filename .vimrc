@@ -36,6 +36,10 @@ if has('nvim')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'kevinhwang91/nvim-bqf'
   Plug 'stevearc/aerial.nvim'
+  Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*', 'do': 'make install_jsregexp'}
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'famiu/bufdelete.nvim'
 
   " Dark colorschemes
   Plug 'sainnhe/sonokai'
@@ -104,7 +108,6 @@ augroup END
 "
 let mapleader = " "
 nmap <Leader><Space> :noh<cr>
-nnoremap <C-X> :bdelete<CR>
 noremap <silent><esc> <esc>:noh<CR><esc>
 nmap <Leader>` mpggVG"+y`p
 nmap <Leader>P :set paste!<CR>
@@ -317,6 +320,7 @@ if !has('nvim')
   nmap ]c <Plug>(GitGutterNextHunk)
   nmap <Leader>L :execute ( g:colors_name == "gruvbox8" ? "colorscheme PaperColor" : "colorscheme gruvbox8" ) <CR>
   map \ :call QuickFind()<CR>
+  nnoremap <C-X> :bdelete<CR>
 
 else
   "
@@ -338,6 +342,7 @@ else
   nmap <leader>9 <Plug>(cokeline-focus-9)
   nmap <leader>f :Neoformat<CR>
   nmap <C-p> :Telescope find_files<CR>
+  nnoremap <C-X> :Bdelete<CR>
 
   autocmd VimEnter * call s:setup_plugins()
   function! s:setup_plugins() abort
@@ -345,8 +350,35 @@ else
     :delcommand PlenaryBustedFile
 
 lua<<EOF
+    require'dashboard'.setup {
+      theme = 'hyper',
+      config = {
+        shortcut = {
+          { desc = ' Update', group = '@property', action = 'Lazy update', key = 'u' },
+          {
+            icon = ' ',
+            icon_hl = '@variable',
+            desc = 'Files',
+            group = 'Label',
+            action = ':NeoTreeFocus',
+            key = 'f',
+          },
+          {
+            desc = ' Apps',
+            group = 'DiagnosticHint',
+            action = 'Telescope app',
+            key = 'a',
+          },
+          {
+            desc = ' dotfiles',
+            group = 'Number',
+            action = 'Telescope dotfiles',
+            key = 'd',
+          },
+        },
+      },
+    }
     require'mason.api.command'
-    require'dashboard'.setup {}
     require"mason".setup {}
     require"mason-lspconfig".setup {}
     require"neo-tree".setup({
@@ -354,6 +386,7 @@ lua<<EOF
     })
     require'lualine'.setup {}
     require'hop'.setup {}
+    require("luasnip.loaders.from_vscode").lazy_load()
     require'telescope'.setup{
       defaults = {
         mappings = {
@@ -407,6 +440,9 @@ lua<<EOF
           text = function(buffer) return buffer.index .. ': ' end,
         },
         {
+          text = function(buffer) if buffer.is_modified then return '• ' else return '' end end,
+        },
+        {
           text = function(buffer) return buffer.unique_prefix end,
           fg = get_hex('Comment', 'fg'),
           style = 'italic',
@@ -457,13 +493,19 @@ lua<<EOF
     --})
 
     local cmp = require'cmp'
+    local luasnip = require'luasnip'
+
+    local has_words_before = function()
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      return (vim.api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1] or ''):sub(cursor[2], cursor[2]):match('%s') 
+    end
 
     cmp.setup({
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-          -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
           -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
           -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
         end,
@@ -477,12 +519,33 @@ lua<<EOF
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif has_words_before() then
+            cmp.complete()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
       }, {
@@ -500,7 +563,6 @@ lua<<EOF
     require('lspconfig')['rust_analyzer'].setup {
       capabilities = capabilities
     }
-
 EOF
   endfunction
 
