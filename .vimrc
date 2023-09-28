@@ -19,7 +19,7 @@ if has('nvim')
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-tree/nvim-web-devicons'
-  Plug 'glepnir/dashboard-nvim'
+  "Plug 'glepnir/dashboard-nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'MunifTanjim/nui.nvim'
   Plug 'nvim-neo-tree/neo-tree.nvim'
@@ -40,6 +40,15 @@ if has('nvim')
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'rafamadriz/friendly-snippets'
   Plug 'famiu/bufdelete.nvim'
+
+  function! UpdateRemotePlugins(...)
+    " Needed to refresh runtime files
+    let &rtp=&rtp
+    UpdateRemotePlugins
+  endfunction
+  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+  "Plug 'roxma/nvim-yarp'
+  "Plug 'roxma/vim-hug-neovim-rpc'
 
   " Dark colorschemes
   Plug 'sainnhe/sonokai'
@@ -102,6 +111,8 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+"set wildmenu
+"set wildmode=longest:full,longest
 
 "
 " Common bindings
@@ -350,34 +361,34 @@ else
     :delcommand PlenaryBustedFile
 
 lua<<EOF
-    require'dashboard'.setup {
-      theme = 'hyper',
-      config = {
-        shortcut = {
-          { desc = ' Update', group = '@property', action = 'Lazy update', key = 'u' },
-          {
-            icon = ' ',
-            icon_hl = '@variable',
-            desc = 'Files',
-            group = 'Label',
-            action = ':NeoTreeFocus',
-            key = 'f',
-          },
-          {
-            desc = ' Apps',
-            group = 'DiagnosticHint',
-            action = 'Telescope app',
-            key = 'a',
-          },
-          {
-            desc = ' dotfiles',
-            group = 'Number',
-            action = 'Telescope dotfiles',
-            key = 'd',
-          },
-        },
-      },
-    }
+    --require'dashboard'.setup {
+    --  theme = 'hyper',
+    --  config = {
+    --    shortcut = {
+    --      { desc = ' Update', group = '@property', action = 'Lazy update', key = 'u' },
+    --      {
+    --        icon = ' ',
+    --        icon_hl = '@variable',
+    --        desc = 'Files',
+    --        group = 'Label',
+    --        action = ':NeoTreeFocus',
+    --        key = 'f',
+    --      },
+    --      {
+    --        desc = ' Apps',
+    --        group = 'DiagnosticHint',
+    --        action = 'Telescope app',
+    --        key = 'a',
+    --      },
+    --      {
+    --        desc = ' dotfiles',
+    --        group = 'Number',
+    --        action = 'Telescope dotfiles',
+    --        key = 'd',
+    --      },
+    --    },
+    --  },
+    --}
     require'mason.api.command'
     require"mason".setup {}
     require"mason-lspconfig".setup {}
@@ -402,8 +413,8 @@ lua<<EOF
       on_attach = function(bufnr)
         -- Jump forwards/backwards with '{' and '}'
         --vim.cmd "AerialOpen!"
-        vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', {buffer = bufnr})
-        vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', {buffer = bufnr})
+        vim.keymap.set('n', '<Leader>k', '<cmd>AerialPrev<CR>', {buffer = bufnr})
+        vim.keymap.set('n', '<Leader>j', '<cmd>AerialNext<CR>', {buffer = bufnr})
         vim.keymap.set('n', '<Leader>o', '<cmd>AerialToggle!<CR>', {buffer = bufnr})
       end,
     })
@@ -458,6 +469,9 @@ lua<<EOF
     })
 
     vim.notify = require("notify")
+    vim.notify.setup {
+      render = 'compact'
+    }
 
     local lspconfig = require('lspconfig')
     lspconfig.pyright.setup {}
@@ -469,6 +483,8 @@ lua<<EOF
         ['rust-analyzer'] = {},
       },
     }
+    lspconfig.r_language_server.setup {}
+    lspconfig.fsautocomplete.setup{}
 
     local bufopts = { noremap=true, silent=true, buffer=bufnr }
     vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float)
@@ -496,7 +512,17 @@ lua<<EOF
     local luasnip = require'luasnip'
 
     local has_words_before = function()
+      local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)
+
+      if string.sub(line, cursor[2] - 1, cursor[2]) == " " then
+        return false
+      end
+
+      if string.sub(line, cursor[2], cursor[2] + 1) == " " then
+        return false
+      end
+
       return (vim.api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1] or ''):sub(cursor[2], cursor[2]):match('%s') 
     end
 
@@ -555,7 +581,14 @@ lua<<EOF
 
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
     require('lspconfig')['pyright'].setup {
-      capabilities = capabilities
+      capabilities = capabilities,
+      settings = {
+        python = {
+          analysis = {
+            typeCheckingMode = "strict"
+          }
+        },
+      },
     }
     require('lspconfig')['tsserver'].setup {
       capabilities = capabilities
@@ -563,7 +596,25 @@ lua<<EOF
     require('lspconfig')['rust_analyzer'].setup {
       capabilities = capabilities
     }
+    require('lspconfig')['r_language_server'].setup {
+      capabilities = capabilities
+    }
 EOF
   endfunction
+
+  call wilder#setup({'modes': [':', '/', '?']})
+  call wilder#set_option('pipeline', [
+        \   wilder#branch(
+        \     wilder#cmdline_pipeline({
+        \       'language': 'python',
+        \       'fuzzy': 1,
+        \     }),
+        \     wilder#python_search_pipeline({
+        \       'pattern': wilder#python_fuzzy_pattern(),
+        \       'sorter': wilder#python_difflib_sorter(),
+        \       'engine': 're',
+        \     }),
+        \   ),
+        \ ])
 
 endif
