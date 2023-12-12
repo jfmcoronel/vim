@@ -40,6 +40,7 @@ if has('nvim')
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'rafamadriz/friendly-snippets'
   Plug 'famiu/bufdelete.nvim'
+  Plug 'mhartington/formatter.nvim'
 
   function! UpdateRemotePlugins(...)
     " Needed to refresh runtime files
@@ -352,6 +353,7 @@ else
   nmap <leader>8 <Plug>(cokeline-focus-8)
   nmap <leader>9 <Plug>(cokeline-focus-9)
   nmap <leader>f :Neoformat<CR>
+  autocmd FileType fsharp nnoremap <leader>f :Format<CR>
   nmap <C-p> :Telescope find_files<CR>
   nnoremap <C-X> :Bdelete<CR>
 
@@ -419,22 +421,10 @@ lua<<EOF
       end,
     })
 
-    local get_hex = require('cokeline/utils').get_hex
-
     local green = vim.g.terminal_color_2
     local yellow = vim.g.terminal_color_3
 
     require('cokeline').setup({
-      default_hl = {
-        fg = function(buffer)
-          return
-            buffer.is_focused
-            and get_hex('Normal', 'fg')
-             or get_hex('Comment', 'fg')
-        end,
-        bg = get_hex('ColorColumn', 'bg'),
-      },
-
       components = {
         {
           text = '｜',
@@ -455,7 +445,6 @@ lua<<EOF
         },
         {
           text = function(buffer) return buffer.unique_prefix end,
-          fg = get_hex('Comment', 'fg'),
           style = 'italic',
         },
         {
@@ -468,12 +457,37 @@ lua<<EOF
       },
     })
 
+    local util = require "formatter.util"
+    
+    require("formatter").setup {
+      logging = true,
+      log_level = vim.log.levels.WARN,
+      filetype = {
+        fsharp = {
+          (function()
+            return {
+              exe = "fantomas",
+              args = {
+                util.escape_path(util.get_current_buffer_file_path()),
+              },
+            }
+          end)
+        },
+    
+        ["*"] = {
+          require("formatter.filetypes.any").remove_trailing_whitespace
+        }
+      }
+    }
+
     vim.notify = require("notify")
     vim.notify.setup {
       render = 'compact'
     }
 
     local lspconfig = require('lspconfig')
+    lspconfig.clangd.setup {}
+    lspconfig.gleam.setup {}
     lspconfig.pyright.setup {}
     lspconfig.ruff_lsp.setup {}
     lspconfig.tsserver.setup {}
@@ -528,7 +542,6 @@ lua<<EOF
 
     cmp.setup({
       snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
           -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
           require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
