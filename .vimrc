@@ -14,6 +14,7 @@ Plug 'jfmcoronel/vim-mipssyntax'
 Plug 'jfmcoronel/vim-sdq-highlight'
 
 if has('nvim')
+  Plug 'scalameta/nvim-metals'
   Plug 'sainnhe/gruvbox-material'
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
@@ -33,7 +34,8 @@ if has('nvim')
   Plug 'hrsh7th/nvim-cmp'
   Plug 'willothy/nvim-cokeline'
   Plug 'sbdchd/neoformat'
-  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  Plug 'nvim-tree/nvim-web-devicons'
   Plug 'kevinhwang91/nvim-bqf'
   Plug 'stevearc/aerial.nvim'
   Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*', 'do': 'make install_jsregexp'}
@@ -41,6 +43,7 @@ if has('nvim')
   Plug 'rafamadriz/friendly-snippets'
   Plug 'famiu/bufdelete.nvim'
   Plug 'mhartington/formatter.nvim'
+  Plug 'dstein64/vim-startuptime'
 
   function! UpdateRemotePlugins(...)
     " Needed to refresh runtime files
@@ -354,7 +357,7 @@ else
   nmap <leader>9 <Plug>(cokeline-focus-9)
   nmap <leader>f :Neoformat<CR>
   autocmd FileType fsharp nnoremap <leader>f :Format<CR>
-  nmap <C-p> :Telescope find_files<CR>
+  nnoremap <c-P> <cmd>lua require('fzf-lua').files()<CR>
   nnoremap <C-X> :Bdelete<CR>
 
   autocmd VimEnter * call s:setup_plugins()
@@ -400,16 +403,6 @@ lua<<EOF
     require'lualine'.setup {}
     require'hop'.setup {}
     require("luasnip.loaders.from_vscode").lazy_load()
-    require'telescope'.setup{
-      defaults = {
-        mappings = {
-          ["i"] = {
-            ["<C-j>"] = "move_selection_next",
-            ["<C-k>"] = "move_selection_previous",
-          }
-        }
-      },
-    }
     require('aerial').setup({
       open_automatic = true,
       on_attach = function(bufnr)
@@ -490,15 +483,33 @@ lua<<EOF
     lspconfig.gleam.setup {}
     lspconfig.pyright.setup {}
     lspconfig.ruff_lsp.setup {}
-    lspconfig.tsserver.setup {}
+    lspconfig.hls.setup{}
+    lspconfig.kotlin_language_server.setup{}
+    lspconfig.purescriptls.setup{}
+    lspconfig.crystalline.setup{}
     lspconfig.rust_analyzer.setup {
       -- Server-specific settings. See `:help lspconfig-setup`
       settings = {
-        ['rust-analyzer'] = {},
+        ['rust-analyzer'] = {}
       },
     }
     lspconfig.r_language_server.setup {}
     lspconfig.fsautocomplete.setup{}
+    require('lspconfig').gopls.setup{
+      single_file_support = true
+    }
+    local metals_config = require("metals").bare_config()
+    metals_config.on_attach = function(client, bufnr)
+      -- your on_attach function
+    end
+    local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "scala", "sbt", "java" },
+      callback = function()
+        require("metals").initialize_or_attach(metals_config)
+      end,
+      group = nvim_metals_group,
+    })
 
     local bufopts = { noremap=true, silent=true, buffer=bufnr }
     vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float)
