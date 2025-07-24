@@ -14,10 +14,25 @@ Plug 'jfmcoronel/vim-mipssyntax'
 Plug 'jfmcoronel/vim-sdq-highlight'
 
 if has('nvim')
+  function! UpdateRemotePlugins(...)
+    " Needed to refresh runtime files
+    let &rtp=&rtp
+    UpdateRemotePlugins
+  endfunction
+
+  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+else
+  Plug 'gelguy/wilder.nvim'
+endif
+
+if has('nvim')
+  Plug 'Julian/lean.nvim'
   Plug 'scalameta/nvim-metals'
   Plug 'sainnhe/gruvbox-material'
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'jay-babu/mason-null-ls.nvim'
+  Plug 'nvimtools/none-ls.nvim'
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-tree/nvim-web-devicons'
   "Plug 'glepnir/dashboard-nvim'
@@ -44,25 +59,24 @@ if has('nvim')
   Plug 'famiu/bufdelete.nvim'
   Plug 'mhartington/formatter.nvim'
   Plug 'dstein64/vim-startuptime'
+  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+  "Plug 'sphamba/smear-cursor.nvim'
+  Plug 'folke/trouble.nvim'
+  Plug 'artemave/workspace-diagnostics.nvim'
 
-  function! UpdateRemotePlugins(...)
-    " Needed to refresh runtime files
-    let &rtp=&rtp
-    UpdateRemotePlugins
-  endfunction
-  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
   "Plug 'roxma/nvim-yarp'
   "Plug 'roxma/vim-hug-neovim-rpc'
 
-  " Dark colorschemes
-  Plug 'sainnhe/sonokai'
-  Plug 'sainnhe/everforest'
-  Plug 'catppuccin/nvim'
-  Plug 'marko-cerovac/material.nvim'
-  Plug 'rose-pine/neovim'
-  " Light colorschemes
-  Plug 'sainnhe/edge'
-  Plug 'EdenEast/nightfox.nvim'
+  "" Dark colorschemes
+  "Plug 'sainnhe/sonokai'
+  "Plug 'sainnhe/everforest'
+  "Plug 'catppuccin/nvim'
+  "Plug 'marko-cerovac/material.nvim'
+  "Plug 'rose-pine/neovim'
+  "Plug 'sainnhe/everforest'
+  "" Light colorschemes
+  "Plug 'sainnhe/edge'
+  "Plug 'EdenEast/nightfox.nvim'
   "Plug 'rebelot/kanagawa.nvim'
   "Plug 'shaunsingh/nord.nvim'
   "Plug 'navarasu/onedark.nvim'
@@ -110,11 +124,11 @@ set termguicolors
 set ignorecase
 set background=dark
 set number relativenumber
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+"augroup numbertoggle
+"  autocmd!
+"  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"augroup END
 "set wildmenu
 "set wildmode=longest:full,longest
 
@@ -342,8 +356,10 @@ else
   " nvim-specific config
   "
   colorscheme gruvbox-material
-  let g:python3_host_prog = expand('~/.pyenv/shims/python3')
+  "let g:python3_host_prog = expand('~/.venv/neovim/bin/python3')
+  "let g:loaded_python3_provider = 0
 
+  nmap <leader>t :Trouble diagnostics toggle<CR>
   nmap <Leader>L :execute ( g:colors_name == "gruvbox-material" ? "colorscheme edge" : "colorscheme gruvbox-material" ) <CR>
   map \ :HopPattern<CR>
   nmap <leader>1 <Plug>(cokeline-focus-1)
@@ -355,7 +371,9 @@ else
   nmap <leader>7 <Plug>(cokeline-focus-7)
   nmap <leader>8 <Plug>(cokeline-focus-8)
   nmap <leader>9 <Plug>(cokeline-focus-9)
-  nmap <leader>f :Neoformat<CR>
+  "nmap <leader>f :Neoformat<CR>
+  nmap <leader>f :lua vim.lsp.buf.format({ async = true })<CR>
+
   autocmd FileType fsharp nnoremap <leader>f :Format<CR>
   nnoremap <c-P> <cmd>lua require('fzf-lua').files()<CR>
   nnoremap <C-X> :Bdelete<CR>
@@ -364,6 +382,11 @@ else
   function! s:setup_plugins() abort
     :delcommand PlenaryBustedDirectory
     :delcommand PlenaryBustedFile
+
+  "augroup filetypedetect
+  "autocmd!
+  "autocmd BufRead,BufNewFile *.lean setfiletype lean
+  "augroup END
 
 lua<<EOF
     --require'dashboard'.setup {
@@ -394,6 +417,39 @@ lua<<EOF
     --    },
     --  },
     --}
+
+    local function on_attach(_, bufnr)
+        local function cmd(mode, lhs, rhs)
+          vim.keymap.set(mode, lhs, rhs, { noremap = true, buffer = true })
+        end
+
+        -- Autocomplete using the Lean language server
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+        -- Support for triggering code actions (e.g. "Try this:" suggestions from `simp?`)
+        cmd('n', '<leader>a', vim.lsp.buf.code_action)
+        cmd('i', '<C-a>', vim.lsp.buf.code_action)
+
+        -- <leader>n will jump to the next Lean line with a diagnostic message on it
+        -- <leader>N will jump backwards
+        cmd('n', '<leader>n', function() vim.diagnostic.goto_next{popup_opts = {show_header = false}} end)
+        cmd('n', '<leader>N', function() vim.diagnostic.goto_prev{popup_opts = {show_header = false}} end)
+
+        -- <leader>K will show all diagnostics for the current line in a popup window
+        cmd('n', '<leader>K', function() vim.diagnostic.open_float(0, { scope = "line", header = false, focus = false }) end)
+
+        -- <leader>q will load all errors in the current lean file into the location list
+        -- (and then will open the location list)
+        -- see :h location-list if you don't generally use it in other vim contexts
+        cmd('n', '<leader>q', vim.diagnostic.setloclist)
+    end
+
+    require('lean').setup{
+      lsp = { on_attach = on_attach },
+      abbreviations = { builtin = true },
+      mappings = true,
+    }
+
     require'mason.api.command'
     require"mason".setup {}
     require"mason-lspconfig".setup {}
@@ -404,7 +460,7 @@ lua<<EOF
     require'hop'.setup {}
     require("luasnip.loaders.from_vscode").lazy_load()
     require('aerial').setup({
-      open_automatic = true,
+      open_automatic = false,
       on_attach = function(bufnr)
         -- Jump forwards/backwards with '{' and '}'
         --vim.cmd "AerialOpen!"
@@ -481,11 +537,21 @@ lua<<EOF
     local lspconfig = require('lspconfig')
     lspconfig.clangd.setup {}
     lspconfig.gleam.setup {}
-    lspconfig.pyright.setup {}
-    lspconfig.ruff_lsp.setup {}
-    lspconfig.hls.setup{}
+    lspconfig.pyright.setup {
+      settings = {
+        python = { pythonPath = vim.fn.exepath("python3"), },
+      }
+    }
+    lspconfig.ruff.setup {}
     lspconfig.kotlin_language_server.setup{}
-    lspconfig.purescriptls.setup{}
+
+    local util = require 'lspconfig.util'
+    lspconfig.purescriptls.setup {
+      root_dir = util.root_pattern(
+        'spago.yaml',
+        'spago.dhall'
+      ),
+    }
     lspconfig.crystalline.setup{}
     lspconfig.rust_analyzer.setup {
       -- Server-specific settings. See `:help lspconfig-setup`
@@ -614,8 +680,11 @@ lua<<EOF
         },
       },
     }
-    require('lspconfig')['tsserver'].setup {
-      capabilities = capabilities
+    require('lspconfig')['ts_ls'].setup {
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+      end
     }
     require('lspconfig')['rust_analyzer'].setup {
       capabilities = capabilities
@@ -623,22 +692,94 @@ lua<<EOF
     require('lspconfig')['r_language_server'].setup {
       capabilities = capabilities
     }
+    vim.lsp.enable('nim_langserver')
+    vim.lsp.enable('nimls')
+
+    require("mason-null-ls").setup({
+      ensure_installed = { "sqlfluff", "ormolu" },
+    })
+    local null_ls = require("null-ls")
+
+    local h = require("null-ls.helpers")
+    local methods = require("null-ls.methods")
+
+    local FORMATTING = methods.internal.FORMATTING
+
+    local ormolu = h.make_builtin({
+      name = "ormolu",
+      meta = {
+        url = "https://github.com/tweag/ormolu",
+        description = "A formatter for Haskell source code.",
+      },
+      method = FORMATTING,
+      filetypes = { "haskell" },
+      generator_opts = {
+        command = "ormolu",
+        args = { "--stdin-input-file", "$FILENAME" },
+        to_stdin = true,
+      },
+      factory = h.formatter_factory,
+    })
+
+    null_ls.setup({
+      sources = {
+        null_ls.builtins.diagnostics.sqlfluff.with({
+          extra_args = { "--dialect", "postgres" },
+        }),
+        null_ls.builtins.formatting.sqlfluff.with({
+          extra_args = { "--dialect", "postgres" },
+        }),
+        ormolu,
+      }
+    })
+
+    vim.env.PATH = os.getenv("HOME") .. "/.ghcup/bin:" .. "/.cabal/bin:" .. vim.env.PATH
+    require("lspconfig").hls.setup {
+      settings = {
+        haskell = {
+          plugin = {
+            hlint = {
+              globalOn = true
+            }
+          }
+        }
+      }
+    }
+
+    require("toggleterm").setup {
+      open_mapping = [[<c-\>]],
+      hide_numbers = true,
+      direction = 'float'
+    }
+
+    --require("smear_cursor").toggle()
+
+    require('fzf-lua').setup({
+      files = {
+        cmd = "rg --files --hidden --glob '!.git'"
+      }
+    })
+
+    require('trouble').setup {}
 EOF
   endfunction
 
   call wilder#setup({'modes': [':', '/', '?']})
-  call wilder#set_option('pipeline', [
-        \   wilder#branch(
-        \     wilder#cmdline_pipeline({
-        \       'language': 'python',
-        \       'fuzzy': 1,
-        \     }),
-        \     wilder#python_search_pipeline({
-        \       'pattern': wilder#python_fuzzy_pattern(),
-        \       'sorter': wilder#python_difflib_sorter(),
-        \       'engine': 're',
-        \     }),
-        \   ),
-        \ ])
+  "call wilder#set_option('pipeline', [
+  "      \   wilder#branch(
+  "      \     wilder#cmdline_pipeline({
+  "      \       'language': 'python',
+  "      \       'fuzzy': 1,
+  "      \     }),
+  "      \     wilder#python_search_pipeline({
+  "      \       'pattern': wilder#python_fuzzy_pattern(),
+  "      \       'sorter': wilder#python_difflib_sorter(),
+  "      \       'engine': 're',
+  "      \     }),
+  "      \   ),
+  "      \ ])
+
+  " https://github.com/neovim/neovim/issues/28968
+  set jumpoptions-=clean
 
 endif
